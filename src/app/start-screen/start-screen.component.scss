@@ -1,0 +1,109 @@
+.start-screen{
+    background-color: #ffffff;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;      
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        //height: 100vh;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        max-width: 100%;
+    }
+}
+
+.fire{
+    position: absolute;
+    background-size: cover;  
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;      
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.firetext{
+    position: absolute;
+    color: white;
+    font-size: 70px;
+    font-weight: bold;
+    display: flex;
+    top:50px;
+    justify-content: center;
+    align-items: center;    
+    left: 0;
+    right: 0;    
+}
+
+.fireanimation{
+    display: block;
+    background: url('/assets/img/fire2.jpg');
+    background-size: cover;
+    //background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: fire 2s linear infinite;
+}
+@keyframes fire {
+    0% {background-position: 0% 50%;}
+    0% {background-position: 100% -50%;}
+
+}
+
+.start-label-box{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+
+    img{
+        width: 40vw;
+        height: auto;
+
+        &:hover{
+            filter: brightness(1.25);
+            cursor: pointer;
+        }
+    }
+}
+
+
+.btn{
+
+font-family: Roboto, sans-serif;
+font-weight: 800;
+font-size: 40px;
+color: #000000;
+background: linear-gradient(90deg, #6b6b6b0c 0%, #6b6b6b0c 100%);
+padding: 10px 30px;
+border: none;
+box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+border-radius: 0px;
+transition : 3000ms;
+transform: translateY(0);
+display: flex;
+flex-direction: row;
+align-items: center;
+cursor: pointer;
+text-transform: uppercase;
+}
+
+.btn:hover{
+
+transition : 3000ms;
+padding: 10px 100px;
+transform : translateY(-0px);
+background: linear-gradient(90deg, #6b6b6b0c 0%, #6b6b6b0c 100%);
+color: #ff0404;
+border: none;
+}
+
+
+

@@ -1,0 +1,20 @@
+<app-player *ngFor="let player of game.players; let i=index;" [ngStyle]="{'top.px': 20+(i*60)}" [playerActive]="i ==game.currentPlayer" [name]="player" class="player-position" ></app-player>
+
+<div class="field" >
+    <div class="card-stack" >
+         <!-- card stack -->
+         <img *ngFor="let c of [0,1,2,3]; let i=index;" [ngStyle]="{'right.px':i*5}" src="/assets/img/playing_cards-master/card_cover.png" alt="card-stack">
+         <img (click)="takeCard()"  class="top-card" style="right: 25px" src="/assets/img/playing_cards-master/card_cover.png" alt="top-card">
+         <!-- stack for played cards -->
+         <img *ngFor="let card of game.playedCards" class="played-card" src="/assets/img/playing_cards-master/{{ card }}.png" alt="drawn cards stack">
+         <!-- current card animation -->
+         <img (click)="takeCard()" *ngIf="pickCardAnimation"  class=" pick-card" style="right: 25px" src="/assets/img/playing_cards-master/{{ currentCard }}.png" alt="top-card">
+ 
+    </div>
+</div>
+
+<app-game-info [card]="currentCard" class="pin-bottom" ></app-game-info>
+
+<button (click)="openDialog()" class="add-btn" >
+    <img src="/assets/img/profile/add-user-2-256-removebg-preview.png" alt="add user">
+</button>
