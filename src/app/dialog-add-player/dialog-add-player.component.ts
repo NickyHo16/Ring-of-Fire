@@ -16,7 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class DialogAddPlayerComponent {
 
-name:string='';
+name: string ='';
 
 constructor(public dialogRef: MatDialogRef<DialogAddPlayerComponent>) {}
 
