@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Game } from '../../models/game';
 import { OnInit } from '@angular/core';
 import { PlayerComponent } from '../player/player.component';
@@ -10,30 +10,54 @@ import { FormsModule } from '@angular/forms';
 import { GameInfoComponent } from '../game-info/game-info.component';
 import { MatCardModule } from '@angular/material/card';
 
+import { AngularFirestore } from '@angular/fire/firestore';
 
+
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, PlayerComponent,MatInputModule, FormsModule, GameInfoComponent,MatCardModule],
+  imports: [
+    CommonModule, 
+    PlayerComponent,
+    MatInputModule, 
+    FormsModule, 
+    GameInfoComponent,
+    MatCardModule,    
+    Firestore,
+    Observable,
+    
+  ],  
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit {    
   pickCardAnimation=false;
   currentCard: string='';
   game: Game = new Game() ;
 
-constructor(public dialog: MatDialog){
+constructor(private firestore: AngularFirestore, public dialog: MatDialog){
+  
   }
 
 ngOnInit():void{
   this.newGame();
+  this
+    .firestore
+    .collection('games')
+    .valueChanges()
+    .subscribe((game) => {
+    console.log('Game update', game);  
+  });
 }
 
 newGame(){
 this.game= new Game();
-
+this.firestore
+  .collection('games')
+  .add({'Hallo':'Welt'}); // das ersetzen durch das: .add(this.toJson());
 }
 
   takeCard(){
