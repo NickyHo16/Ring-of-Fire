@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Game } from '../../models/game';
 import { OnInit } from '@angular/core';
+
+import { NgClass, NgForOf } from '@angular/common';
+import { NgStyle } from '@angular/common';
+import { NgIf } from '@angular/common';
+
 import { PlayerComponent } from '../player/player.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
@@ -9,12 +14,13 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { GameInfoComponent } from '../game-info/game-info.component';
 import { MatCardModule } from '@angular/material/card';
+import { ActivatedRoute } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { Firestore, collection, doc } from '@angular/fire/firestore';
 
-import { AngularFirestore } from '@angular/fire/firestore';
 
-
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -25,9 +31,12 @@ import { Observable } from 'rxjs';
     MatInputModule, 
     FormsModule, 
     GameInfoComponent,
-    MatCardModule,    
-    Firestore,
-    Observable,
+    MatCardModule, 
+    AngularFirestoreModule,
+    NgForOf,
+    NgStyle,
+    NgIf,
+    NgClass,   
     
   ],  
   templateUrl: './game.component.html',
@@ -37,27 +46,57 @@ export class GameComponent implements OnInit {
   pickCardAnimation=false;
   currentCard: string='';
   game: Game = new Game() ;
+  firestore: any;
+  gameId: string | undefined;
+ 
+    
 
-constructor(private firestore: AngularFirestore, public dialog: MatDialog){
+constructor(
   
+  public dialog: MatDialog,
+  private route: ActivatedRoute,
+  //@Inject(Firestore) private firestore: Firestore ,// Inject Firestore
+  //private http: HttpClient,
+  //private firestore: AngularFirestore, // Verwenden Sie AngularFirestore
+  //@Inject(Firestore) private firestore: AngularFirestore ,// Inject Firestore
+ 
+  
+  ){ }
+
+  ngonDestroy() {
+    this.unsubList();
+  }
+  unsubList() {
+    throw new Error('Method not implemented.');
+  }
+
+  getGamesRef() {
+    return collection(this.firestore, 'games');
+  }
+
+  getSingleDoc(colId: string, docId: string) {
+    return doc(collection(this.firestore, colId), docId);
   }
 
 ngOnInit():void{
-  this.newGame();
-  this
-    .firestore
-    .collection('games')
-    .valueChanges()
-    .subscribe((game) => {
-    console.log('Game update', game);  
-  });
+  this.newGame();  
+ // this.route.params.subscribe((params) => {
+ //   this.gameId = params['id'];
+
+  //this.firestore.collection('games')    
+ // .valueChanges()
+  //.doc(this.gameId)
+  //.subscribe((game: any) => {
+   // console.log('Games update', game);  
+  //});
+//})
 }
 
 newGame(){
 this.game= new Game();
-this.firestore
-  .collection('games')
-  .add({'Hallo':'Welt'}); // das ersetzen durch das: .add(this.toJson());
+//this.firestore
+ // .collection('games')
+ // .add({'Hallo':'Welt'}); // das ersetzen durch das: .add(this.toJson());
 }
 
   takeCard(){
